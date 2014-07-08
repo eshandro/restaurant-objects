@@ -1,0 +1,10 @@
+.container{
+	margin: 20px auto;
+	background-color: green;
+}
+
+.main-content{
+	position: relative;
+	width: 900px;
+	background-color: white;
+}

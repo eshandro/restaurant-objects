@@ -1,5 +1,9 @@
 $(document).on('ready', function() {
-  
+  var container = $('<div class="container"></div>');
+  var mainContent = $('<div class="main-content"></div>');
+  var glutenRestrictions = $('<span class="diet-restriction"> Click Here for Gluten Free Options</span>');
+  var citrusRestrictions = $('<span class="diet-restriction"> Click Here for Citrus Free Options</span>');
+  var veganRestrictions = $('<span class="diet-restriction"> Click Here for Vegan Options</span>');
 
 
 });
@@ -71,7 +75,12 @@ var Drink =function(name, description, price, ingredients){
 				}
 			}
 		return itemList;
-	}
+	};
+		this.addElem = function() {
+			return $('<div class="drink-item"></div>').text(name);
+
+		};
+
 		drinksList.push(this);
 
 };
@@ -93,6 +102,10 @@ var Plate =function(name, description, price, ingredients){
 			}
 			return itemList;
 		}
+		this.addElem = function(){
+			return $('<div class="dish"></div>').text(name + ': ' + price + '\n' + description);
+		}
+
 		this.isVegan = function () {
 			for(i=0; i < this.ingredients.length; i++) {
 				if(!this.ingredients[i].vegan) {
@@ -101,6 +114,7 @@ var Plate =function(name, description, price, ingredients){
 			}
 			return true;
 		}
+
 		this.isGlutenFree = function() {
 			for(i=0; i < this.ingredients.length; i++) {
 				if(!this.ingredients[i].glutenFree) {
@@ -131,7 +145,16 @@ var Order = function(plates){
 			}
 			return itemList;
 		}
-
+		this.addElem =function(){
+			var completeOrder =''; 
+			for (i=0; i < this.plates.length; i++) {
+				var item = $(plates[i].addElem());
+				console.log(item);
+				completeOrder = $('<div class="order"></div>').append(item);
+				console.log(completeOrder);
+			};
+			// return $('<div class="order"></div>');
+		}
 };
 
 // new Menu constructor
@@ -176,5 +199,8 @@ var oldSchoolMexicanMenu = new Menu([platesList, drinksList]);
 var oldschoolMexican = new Restaurant('Old School Mexican', 'Awesome Mexican Grill', oldSchoolMexicanMenu);
 
 
+// Test order
+
+var newOrder = new Order([burritoPlate, guacPlate]);
 
 
