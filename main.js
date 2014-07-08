@@ -37,8 +37,6 @@ var FoodItem = function(name, calories, vegan, glutenFree, citrusFree){
 // Make food items per task
 var burrito = new FoodItem("burrito", 1000, false, false, true);
 
-var tofu = new FoodItem("tofu", 400, true, true, true);
-
 var indianTaco = new FoodItem("indianTaco", 2000, false, false, false);
 
 var margMix = new FoodItem('Margarita Mix', 200, true, true, false);
@@ -49,8 +47,10 @@ var guac = new FoodItem('Guac', 500, true, true, true);
 
 var chips = new FoodItem('chips', 300, true, true, true);
 
+var salsa = new FoodItem('salsa', 100, true, true, true);
+
 // Print the 3 food items per task
-console.log(burrito.toString(), tofu.toString(), indianTaco.toString());
+// console.log(burrito.toString(), salsa.toString(), indianTaco.toString());
 
 // new Drink constructor
 var Drink =function(name, description, price, ingredients){
@@ -72,6 +72,7 @@ var Drink =function(name, description, price, ingredients){
 			}
 		return itemList;
 	}
+		drinksList.push(this);
 
 };
 
@@ -93,24 +94,24 @@ var Plate =function(name, description, price, ingredients){
 			return itemList;
 		}
 		this.isVegan = function () {
-			for(i=0; i < ingredients.length; i++) {
-				if(!ingredients[i].vegan) {
+			for(i=0; i < this.ingredients.length; i++) {
+				if(!this.ingredients[i].vegan) {
 					return false;
 				}
 			}
 			return true;
 		}
 		this.isGlutenFree = function() {
-			for(i=0; i < ingredients.length; i++) {
-				if(!ingredients[i].glutenFree) {
+			for(i=0; i < this.ingredients.length; i++) {
+				if(!this.ingredients[i].glutenFree) {
 					return false;
 				}
 			}
 			return true;			
 		}
 		this.isCitrusFree = function() {
-			for(i=0; i < ingredients.length; i++) {
-				if(!ingredients[i].citrusFree) {
+			for(i=0; i < this.ingredients.length; i++) {
+				if(!this.ingredients[i].citrusFree) {
 					return false;
 				}
 			}
@@ -125,8 +126,8 @@ var Order = function(plates){
 		this.plates = plates;
 		this.toString = function() {
 			var itemList = '';
-			for(i=0; i < plates.length; i++) {
-				itemList += plates[i] + '\n';
+			for(i=0; i < this.plates.length; i++) {
+				itemList += this.plates[i] + '\n';
 			}
 			return itemList;
 		}
@@ -139,8 +140,8 @@ var Menu = function(plates){
 		this.plates = plates;
 		this.toString = function() {
 		var itemList = '';
-		for(i=0; i < plates.length; i++) {
-			itemList += plates[i] + '\n';
+		for(i=0; i < this.plates.length; i++) {
+			itemList += this.plates[i] + '\n';
 		}
 		return itemList;
 	}
@@ -165,6 +166,14 @@ var Customer = function(dietaryPreference){
 
 }
 
+// Create 2 plates and one drink
+var burritoPlate = new Plate('Burrito and salsa', 'Burrito Yummy', 8, [burrito, salsa]);
+var guacPlate = new Plate('Guac Plate', 'Guac and chips', 7, [guac, chips]);
+var marg = new Drink("Marg", "Sweet!", 5, [margMix, tequilla]);
+
+var oldSchoolMexicanMenu = new Menu([platesList, drinksList]);
+
+var oldschoolMexican = new Restaurant('Old School Mexican', 'Awesome Mexican Grill', oldSchoolMexicanMenu);
 
 
 
