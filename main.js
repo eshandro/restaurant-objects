@@ -26,7 +26,6 @@ var FoodItem = function(name, calories, vegan, glutenFree, citrusFree){
 		this.glutenFree = glutenFree;
 		this.citrusFree = citrusFree;
 		this.toString=function(){
-
 			var itemList = "";
 			for(key in this){
 				if(typeof this[key] !== "function"){
@@ -34,7 +33,7 @@ var FoodItem = function(name, calories, vegan, glutenFree, citrusFree){
 				}
 			}
 			return itemList;
-		}
+		};
 		foodItemList.push(this);
 };
 
@@ -75,7 +74,7 @@ var Drink =function(name, description, price, ingredients){
 				}
 			}
 		return itemList;
-	};
+		};
 		this.addElem = function() {
 			return $('<div class="drink-item"></div>').text(name);
 
@@ -101,10 +100,10 @@ var Plate =function(name, description, price, ingredients){
 				}
 			}
 			return itemList;
-		}
+		};
 		this.addElem = function(){
 			return $('<div class="dish"></div>').html(name + ': ' + price + " dollars<br>" + description);
-		}
+		};
 
 		this.isVegan = function () {
 			for(i=0; i < this.ingredients.length; i++) {
@@ -113,7 +112,7 @@ var Plate =function(name, description, price, ingredients){
 				}
 			}
 			return true;
-		}
+		};
 
 		this.isGlutenFree = function() {
 			for(i=0; i < this.ingredients.length; i++) {
@@ -122,7 +121,7 @@ var Plate =function(name, description, price, ingredients){
 				}
 			}
 			return true;			
-		}
+		};
 		this.isCitrusFree = function() {
 			for(i=0; i < this.ingredients.length; i++) {
 				if(!this.ingredients[i].citrusFree) {
@@ -130,7 +129,7 @@ var Plate =function(name, description, price, ingredients){
 				}
 			}
 			return true;
-		}
+		};
 		platesList.push(this);
 };
 
@@ -144,44 +143,54 @@ var Order = function(plates){
 				itemList += this.plates[i] + '\n';
 			}
 			return itemList;
-		}
+		};
 		this.addElem =function(){
 			var completeOrder =$('<div class="order"></div>'); 
 			for (i=0; i < this.plates.length; i++) {
 				var item = $(plates[i].addElem());
-				// console.log(item);
-				completeOrder = completeOrder.append(item);
-				// console.log(completeOrder);
+				completeOrder.append(item);
 			};
 			return completeOrder;
-		}
+		};
 };
 
 // new Menu constructor
 var Menu = function(plates){
-
 		this.plates = plates;
 		this.toString = function() {
-		var itemList = '';
-		for(i=0; i < this.plates.length; i++) {
+			var itemList = '';
+			for(i=0; i < this.plates.length; i++) {
 			itemList += this.plates[i] + '\n';
-		}
+			}
 		return itemList;
-	}
+		};
+		this.addElem=function(){
+			var menuComplete = $('<div class="menu"></div>');
+			for(i=0; i<plates.length; i++){
+				var items = $(plates[i].addElem());
+				menuComplete.append(items);
+			}
+			return menuComplete;
+		};
 };
 
 var Restaurant = function(name, description, menu){
-
 		this.name= name;
 		this.description = description;
 		this.menu = menu;
 		this.toString = function() {
 			return name + '\n' + description + '\n' + menu.toString();
-		}
+		};
+		this.addElem= function(){
+			var restaurantComplete= $('<div class="restaurant"></div>');
+			restaurantComplete.append('<h1>' + name + '</h1>' );
+			restaurantComplete.append('<p>' + description +  '</p>');
+			restaurantComplete.append($(this.menu.addElem()));
+			return restaurantComplete;
+		};
 };
 
 var Customer = function(dietaryPreference){
-
 	this.dietaryPreferance = dietaryPreference;
 	this.toString = function() {
 		return this.dietaryPreference;
@@ -193,14 +202,18 @@ var Customer = function(dietaryPreference){
 var burritoPlate = new Plate('Burrito and salsa', 'Burrito Yummy', 8, [burrito, salsa]);
 var guacPlate = new Plate('Guac Plate', 'Guac and chips', 7, [guac, chips]);
 var marg = new Drink("Marg", "Sweet!", 5, [margMix, tequilla]);
-
-var oldSchoolMexicanMenu = new Menu([platesList, drinksList]);
-
-var oldschoolMexican = new Restaurant('Old School Mexican', 'Awesome Mexican Grill', oldSchoolMexicanMenu);
-
-
 // Test order
 
 var newOrder = new Order([burritoPlate, guacPlate]);
+
+var menu = new Menu([burritoPlate, guacPlate]);
+
+// Create Menu
+var oldSchoolMexicanMenu = new Menu([platesList, drinksList]);
+
+// Create Restaurant
+var oldschoolMexican = new Restaurant('Old School Mexican', 'Awesome Mexican Grill', menu);
+
+
 
 
